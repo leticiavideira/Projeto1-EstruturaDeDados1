@@ -3,6 +3,20 @@
 
 #include "lista.h"
 
+/*
+ * @file poligono.h
+ * @brief Interface para o módulo de Polígono.
+ *
+ * Este arquivo define a interface pública para criação, manipulação e destruição
+ * de polígonos. Um polígono é representado por um conjunto de vértices (coordenadas x, y),
+ * armazenados em uma estrutura de lista.
+ *
+ * O módulo utiliza um tipo opaco (handle) para encapsular a implementação interna,
+ * oferecendo operações para inserção e remoção de vértices, consulta de propriedades
+ * (como número de vértices e bounding box), verificação de ponto interno, geração
+ * de borda e hachura, além de gerenciamento de memória.
+ */
+
 /**
  * @brief Tipo abstrato que representa um polígono.
  */
