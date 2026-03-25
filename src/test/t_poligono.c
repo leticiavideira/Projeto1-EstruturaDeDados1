@@ -1,6 +1,11 @@
 #include <stdio.h>
-#include "../includes/poligono.h"
 #include "unity.h"
+#include "../includes/poligono.h"
+
+
+/* =======================================================
+   Funções de Teste
+   ======================================================= */
 
 //CRIAÇÃO
 
@@ -41,7 +46,7 @@ void test_insertVerticePoligono_Invalido () {
 }
 
 
-
+//GETTERS
 
 //int getNumeroVertices_Poligono (POLIGONO p);
 void test_getNumeroVerticesPoligono_Valido(){
@@ -63,13 +68,15 @@ void test_getNumeroVerticesPoligono_Invalido(){
 }
 
 
-
 //LISTA getListaVertices_Poligono (POLIGONO p);
 void test_getListaVerticesPoligono_Valido() {
     POLIGONO p = criarPoligono();
     insertVertice_Poligono(p, 1, 1);
 
-    TEST_ASSERT_NOT_NULL(getListaVertices_Poligono(p));
+    LISTA l = getListaVertices_Poligono(p);
+
+    TEST_ASSERT_NOT_NULL(l);
+    TEST_ASSERT_EQUAL_INT(1, tamanhoLista(l));
 }
 
 void test_getListaVerticesPoligono_Invalido() {
@@ -77,43 +84,170 @@ void test_getListaVerticesPoligono_Invalido() {
 }
 
 
-/**
- * @brief Calcula o bounding box do polígono.
- *
- * @param p Polígono
- * @param x Saída: coordenada x mínima
- * @param y Saída: coordenada y mínima
- * @param w Saída: largura
- * @param h Saída: altura
- *
- * @return int 1 sucesso
- * @return int -1 erro
- */
-int getBoundingBox_Poligono (POLIGONO p, double *x, double *y, double *w, double *h);
+//int getBoundingBox_Poligono (POLIGONO p, double *x, double *y, double *w, double *h);
+void test_getBoundingBoxPoligono_formatoRegular_Valido(){
+    POLIGONO p = criarPoligono();
 
-/**
- * @brief Gera os segmentos da borda do polígono.
- *
- * @param p Polígono
- * @param l Lista de saída de segmentos
- *
- * @return int Quantidade de segmentos gerados
- * @return int -1 erro
- */
-int produzBorda_Poligono (POLIGONO p, LISTA l);
-/**
- * @brief Gera hachura interna do polígono.
- *
- * @param p Polígono
- * @param distancia Espaçamento entre linhas
- * @param corp Cor de preenchimento
- * @param corb Cor da borda
- * @param l Lista de saída
- *
- * @return int 1 sucesso
- * @return int -1 erro
- */
-int hachura_Poligono (POLIGONO p, double distancia, char* corp, char* corb, LISTA l);
+    insertVertice_Poligono(p, 0, 0);
+    insertVertice_Poligono(p, 2, 0);
+    insertVertice_Poligono(p, 2, 2);
+    insertVertice_Poligono(p, 0, 2);
+
+    double x, y, w, h;
+    int r = getBoundingBox_Poligono(p, &x, &y, &w, &h);
+
+    TEST_ASSERT_EQUAL_INT(1, r);
+    TEST_ASSERT_FLOAT_WITHIN(0.001, 0, x);
+    TEST_ASSERT_FLOAT_WITHIN(0.001, 0, y);
+    TEST_ASSERT_FLOAT_WITHIN(0.001, 2, w);
+    TEST_ASSERT_FLOAT_WITHIN(0.001, 2, h);
+
+    kill_Poligono(p);
+}
+void test_getBoundingBoxPoligono_formatoIrregular_Valido(){
+    POLIGONO p = criarPoligono();
+
+    insertVertice_Poligono(p, -1, 3);
+    insertVertice_Poligono(p, 4, 2);
+    insertVertice_Poligono(p, 2, -2);
+
+    double x, y, w, h;
+    int r = getBoundingBox_Poligono(p, &x, &y, &w, &h);
+
+    TEST_ASSERT_EQUAL_INT(1, r);
+    TEST_ASSERT_FLOAT_WITHIN(0.001, -1, x);
+    TEST_ASSERT_FLOAT_WITHIN(0.001, -2, y);
+    TEST_ASSERT_FLOAT_WITHIN(0.001, 5, w);
+    TEST_ASSERT_FLOAT_WITHIN(0.001, 5, h);
+
+    kill_Poligono(p);
+}
+void test_getBoundingBoxPoligono_Invalido(){
+    double x, y, w, h;
+    int r = getBoundingBox_Poligono(NULL, &x, &y, &w, &h);
+
+    TEST_ASSERT_EQUAL_INT(-1, r);
+}
+
+
+
+//int produzBorda_Poligono (POLIGONO p, LISTA l);
+void test_produzBordaPoligono_Valido(){
+    POLIGONO p = criarPoligono();
+
+    insertVertice_Poligono(p, 0, 0);
+    insertVertice_Poligono(p, 0, 2);
+    insertVertice_Poligono(p, 2, 2);
+    insertVertice_Poligono(p, 2, 0);
+
+    LISTA l = criarLista();
+    int r = produzBorda_Poligono(p, l);
+
+    TEST_ASSERT_EQUAL_INT(4, r);
+    TEST_ASSERT_EQUAL_INT(4, tamanhoLista(l));
+
+    killLista(l);
+    kill_Poligono(p);
+}
+void test_produzBordaPoligono_poligonoVazio_Invalido(){
+    POLIGONO p = criarPoligono();
+    LISTA l = criarLista();
+
+    int r = produzBorda_Poligono(p, l);
+
+    TEST_ASSERT_EQUAL_INT(-1, r);
+
+    killLista(l);
+    kill_Poligono(p);
+}
+void test_produzBordaPoligono_menosDe3Vertices_Invalido(){
+    POLIGONO p = criarPoligono();
+    LISTA l = criarLista();
+
+    insertVertice_Poligono(p, 0, 0);
+    insertVertice_Poligono(p, 1, 1);
+
+    int r = produzBorda_Poligono(p, l);
+
+    TEST_ASSERT_EQUAL_INT(-1, r);
+
+    killLista(l);
+    kill_Poligono(p);
+}
+void test_produzBordaPoligono_poligonoNULL_Invalido(){
+    LISTA l = criarLista();
+
+    int r = produzBorda_Poligono(NULL, l);
+
+    TEST_ASSERT_EQUAL_INT(-1, r);
+
+    killLista(l);
+}
+void test_produzBordaPoligono_listaNULL_Invalido(){
+    POLIGONO p = criarPoligono();
+
+    int r = produzBorda_Poligono(p, NULL);
+
+    TEST_ASSERT_EQUAL_INT(-1, r);
+
+    kill_Poligono(p);
+}
+
+
+//int hachura_Poligono (POLIGONO p, double distancia, char* corp, char* corb, LISTA l)
+void test_hachuraPoligono_Valido(){
+    POLIGONO p = criarPoligono();
+    insertVertice_Poligono(p, 1, 1);
+    insertVertice_Poligono(p, 1, 4);
+    insertVertice_Poligono(p, 4, 4);
+    insertVertice_Poligono(p, 4, 1);
+
+    char* corp = "grey", corb = "magenta";
+    LISTA l = criarLista();
+
+    int r = hachura_Poligono(p, 0.1, corp, corb, l);
+
+    TEST_ASSERT_EQUAL_INT(1, r);
+
+    TEST_ASSERT_TRUE(tamanhoLista(l) > 0);
+
+    killLista(l);
+    kill_Poligono(p);
+}
+void test_hachuraPoligono_menosDe3Vertices_Invalido(){
+    POLIGONO p = criarPoligono();
+    insertVertice_Poligono(p, 1, 1);
+    insertVertice_Poligono(p, 2, 2);
+
+    LISTA l = criarLista();
+
+    int r = hachura_Poligono(p, 0.1, "grey", "black", l);
+
+    TEST_ASSERT_EQUAL_INT(-1, r);
+
+    killLista(l);
+    kill_Poligono(p);
+}
+void test_hachuraPoligono_poligonoNULL_Invalido(){
+    char* corp = "grey", corb = "magenta";
+    LISTA l = criarLista();
+
+    int r = hachura_Poligono(NULL, 0.1, corp, corb, l);
+
+    TEST_ASSERT_EQUAL_INT(-1, r);
+
+    killLista(l);
+}
+void test_hachuraPoligono_listaNULL_Invalido(){
+    char* corp = "grey", corb = "magenta";
+    POLIGONO p = criarPoligono();
+
+    int r = hachura_Poligono(p, 0.1, corp, corb, NULL);
+
+    TEST_ASSERT_EQUAL_INT(-1, r);
+
+    kill_Poligono(p);
+}
 
 
 
@@ -141,6 +275,19 @@ void test_isInsidePoligono_naoEstaDentro_Valido(){
     int r = isInside_Poligono(p, 8, 2);
 
     TEST_ASSERT_EQUAL_INT(0, r);
+
+    kill_Poligono(p);
+}
+void test_isInsidePoligono_naBorda_Valido(){
+    POLIGONO p = criarPoligono();
+    insertVertice_Poligono(p, 0, 0);
+    insertVertice_Poligono(p, 4, 0);
+    insertVertice_Poligono(p, 4, 4);
+    insertVertice_Poligono(p, 0, 4);
+
+    int r = isInside_Poligono(p, 0, 2);
+
+    TEST_ASSERT_TRUE(r == 0);
 
     kill_Poligono(p);
 }
@@ -188,6 +335,16 @@ void test_removeVerticePoligono_Valido(){
 
     kill_Poligono(p);
 }
+void test_removeVerticePoligono_removeTudo_Valido(){
+    POLIGONO p = criarPoligono();
+    insertVertice_Poligono(p, 1, 1);
+
+    removeVertice_Poligono(p, 1, 1);
+
+    TEST_ASSERT_EQUAL_INT(1, estaVazio_Poligono(p));
+
+    kill_Poligono(p);
+}
 void test_removeVerticePoligono_coordenadaInexistente_Invalido(){
     POLIGONO p = criarPoligono();
     insertVertice_Poligono(p, 1, 2);
@@ -216,4 +373,58 @@ void test_killPoligono_Invalido(){
     int r = kill_Poligono(NULL);
 
     TEST_ASSERT_EQUAL_INT(-1, r);
+}
+
+/* =======================================================
+   MAIN
+   ======================================================= */
+
+int main() {
+    UNITY_BEGIN();
+
+    RUN_TEST(test_criarPoligono_Valido);
+    RUN_TEST(test_criarPoligono_comecarVazio_Valido);
+
+    RUN_TEST(test_insertVerticePoligono_Valido);
+    RUN_TEST(test_insertVerticePoligono_Invalido);
+
+    RUN_TEST(test_getNumeroVerticesPoligono_Valido);
+    RUN_TEST(test_getNumeroVerticesPoligono_Invalido);
+
+    RUN_TEST(test_getListaVerticesPoligono_Valido);
+    RUN_TEST(test_getListaVerticesPoligono_Invalido);
+
+    RUN_TEST(test_getBoundingBoxPoligono_formatoRegular_Valido);
+    RUN_TEST(test_getBoundingBoxPoligono_formatoIrregular_Valido);
+    RUN_TEST(test_getBoundingBoxPoligono_Invalido);
+
+    RUN_TEST(test_produzBordaPoligono_Valido);
+    RUN_TEST(test_produzBordaPoligono_menosDe3Vertices_Invalido);
+    RUN_TEST(test_produzBordaPoligono_poligonoVazio_Invalido);
+    RUN_TEST(test_produzBordaPoligono_listaNULL_Invalido);
+    RUN_TEST(test_produzBordaPoligono_poligonoNULL_Invalido);
+
+    RUN_TEST(test_hachuraPoligono_Valido);
+    RUN_TEST(test_hachuraPoligono_menosDe3Vertices_Invalido);
+    RUN_TEST(test_hachuraPoligono_listaNULL_Invalido);
+    RUN_TEST(test_hachuraPoligono_poligonoNULL_Invalido);
+
+    RUN_TEST(test_isInsidePoligono_estaDentro_Valido);
+    RUN_TEST(test_isInsidePoligono_naoEstaDentro_Valido);
+    RUN_TEST(test_isInsidePoligono_naBorda_Valido);
+    RUN_TEST(test_isInsidePoligono_Invalido);
+
+    RUN_TEST(test_estaVazioPoligono_vazio_Valido);
+    RUN_TEST(test_estaVazioPoligono_naoVazio_Valido);
+    RUN_TEST(test_estaVazioPoligono_Invalido);
+
+    RUN_TEST(test_removeVerticePoligono_Valido);
+    RUN_TEST(test_removeVerticePoligono_removeTudo_Valido);
+    RUN_TEST(test_removeVerticePoligono_coordenadaInexistente_Invalido);
+    RUN_TEST(test_removeVerticePoligono_poligonoNULL_Invalido);
+
+    RUN_TEST(test_killPoligono_Valido);
+    RUN_TEST(test_killPoligono_Invalido);
+
+    return UNITY_END();
 }
