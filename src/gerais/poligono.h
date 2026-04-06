@@ -1,7 +1,7 @@
 #ifndef POLIGONO_H
 #define POLIGONO_H
 
-#include "lista.h"
+#include "./estruturas/fila.h"
 
 /*
  * @file poligono.h
@@ -9,7 +9,7 @@
  *
  * Este arquivo define a interface pública para criação, manipulação e destruição
  * de polígonos. Um polígono é representado por um conjunto de vértices (coordenadas x, y),
- * armazenados em uma estrutura de lista.
+ * armazenados em uma estrutura de fila.
  *
  * O módulo utiliza um tipo opaco (handle) para encapsular a implementação interna,
  * oferecendo operações para inserção e remoção de vértices, consulta de propriedades
@@ -54,14 +54,14 @@ int insertVertice_Poligono (POLIGONO p, double x, double y);
  */
 int getNumeroVertices_Poligono (POLIGONO p);
 /**
- * @brief Retorna a lista de vértices do polígono.
+ * @brief Retorna a fila de vértices do polígono.
  *
  * @param p Polígono
  *
- * @return LISTA Lista de vértices
+ * @return FILA Fila de vértices
  * @return NULL erro (p == NULL)
  */
-LISTA getListaVertices_Poligono (POLIGONO p);
+FILA getFilaVertices_Poligono (POLIGONO p);
 
 
 /**
@@ -82,12 +82,12 @@ int getBoundingBox_Poligono (POLIGONO p, double *x, double *y, double *w, double
  * @brief Gera os segmentos da borda do polígono.
  *
  * @param p Polígono
- * @param l Lista de saída de segmentos
+ * @param f Fila de saída de segmentos
  *
  * @return int Quantidade de segmentos gerados
  * @return int -1 erro
  */
-int produzBorda_Poligono (POLIGONO p, LISTA l);
+int produzBorda_Poligono (POLIGONO p, FILA f);
 /**
  * @brief Gera hachura interna do polígono.
  *
@@ -95,12 +95,12 @@ int produzBorda_Poligono (POLIGONO p, LISTA l);
  * @param distancia Espaçamento entre linhas
  * @param corp Cor de preenchimento
  * @param corb Cor da borda
- * @param l Lista de saída
+ * @param f Fila de saída
  *
  * @return int 1 sucesso
  * @return int -1 erro
  */
-int hachura_Poligono (POLIGONO p, double distancia, char* corp, char* corb, LISTA l);
+int hachura_Poligono (POLIGONO p, double distancia, char* corp, char* corb, FILA f);
 
 
 /**
