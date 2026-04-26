@@ -32,7 +32,7 @@ int pushFila (FILA f, void *conteudo) {
     if (f == NULL) 
         return 0;
     
-    Fila *f1 = ((Fila *) f); // DU DU DU DU MAX VERSTAPPEN
+    Fila *f1 = ((Fila *) f);
 
     elementoFila *new = (elementoFila *) malloc (sizeof (elementoFila));
         if (new == NULL){
