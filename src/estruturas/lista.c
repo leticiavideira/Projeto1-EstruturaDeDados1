@@ -3,9 +3,9 @@
 
 #include "lista.h"
 
-typedef struct {
+typedef struct elementoLista{
     void *conteudo;
-    elementoLista *prox;
+    struct elementoLista *prox;
 } elementoLista;
 
 typedef struct {
@@ -69,7 +69,7 @@ int pushFimLista (LISTA l, void *conteudo) {
     new->conteudo = conteudo;
     new->prox = NULL;
 
-    if (listaVazia){
+    if (listaVazia(l1)){
         l1->inicio = new;
 
     } else {
@@ -81,6 +81,36 @@ int pushFimLista (LISTA l, void *conteudo) {
     l1->tamanho++;    
 
     return 1;
+}
+
+void* getInicioLista(LISTA l) {
+    if (l == NULL)
+        return NULL;
+
+    Lista *l1 = (Lista *) l;
+
+    if (!l1->inicio)
+        return NULL;
+
+    return (l1->inicio);
+}
+
+void* getProximoLista(LISTA l, void* atual) {
+    if (l == NULL || atual == NULL)
+        return NULL;
+
+    elementoLista *no = (elementoLista *) atual;
+
+    return (no->prox);
+}
+
+void* getConteudoElemLista (void *elemento) {
+    if (elemento == NULL)
+        return NULL;
+
+    elementoLista *no = (elementoLista *) elemento;
+
+    return (no->conteudo);
 }
 
 void *popInicioLista (LISTA l) {
@@ -148,7 +178,7 @@ void *popIdLista (LISTA l, void *conteudo) {
     Lista *l1 = (Lista *) l;
 
     elementoLista *remover = buscaIdLista (l1, conteudo);
-    void *conteudo = remover->conteudo;
+    void *c = remover->conteudo;
 
     if (remover == NULL){
         printf ("Nao foi possivel remover o conteudo.\n");
@@ -170,7 +200,7 @@ void *popIdLista (LISTA l, void *conteudo) {
 
     free (remover);
     l1->tamanho--;
-    return (conteudo);
+    return (c);
 }
 
 void *buscaIdLista (LISTA l, void *conteudo) {
@@ -232,7 +262,7 @@ void imprimirConteudoLista (LISTA l) {
         printf ("Lista vazia.\n");
     } else {
         while (aux != NULL){
-            printf ("- %s\n", aux->conteudo);
+            printf ("- %s\n", (char *) aux->conteudo);
             aux = aux->prox;
         }
     }

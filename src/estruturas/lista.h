@@ -50,6 +50,12 @@ int pushInicioLista (LISTA l, void *conteudo);
  */
 int pushFimLista (LISTA l, void *conteudo);
 
+void* getInicioLista(LISTA l);
+
+void* getProximoLista(LISTA l, void* atual);
+
+void* getConteudoElemLista (void *elemento);
+
 /**
  * @brief Remove e retorna o elemento do início da lista.
  *
