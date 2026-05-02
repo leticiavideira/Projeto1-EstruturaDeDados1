@@ -64,9 +64,9 @@ static struct filaEPilhaLinhas *leArqFilaPilha (char *arqPath){
         printf ("Erro ao alocar memoria fila e pilha de linhas.\n");
         return NULL;
     }
-
-    FILA fila = criaFila ();
-    PILHA linhasLiberar = criaPilha ();
+    
+    FILA fila = criarFila ();
+    PILHA linhasLiberar = criarPilha ();
     FILE *arquivo = fopen (arqPath, "r");
 
         if (arquivo == NULL){
