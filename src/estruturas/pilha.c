@@ -3,9 +3,9 @@
 
 #include "pilha.h"
 
-typedef struct {
+typedef struct elementoPilha{
     void *conteudo;
-    elementoPilha *prox;
+    struct elementoPilha *prox;
 } elementoPilha;
 
 typedef struct {
@@ -100,7 +100,7 @@ void imprimirConteudoPilha (PILHA p) {
         printf ("Pilha vazia.\n");
     } else {
         while (aux != NULL) {
-            printf ("- %s\n", aux->conteudo);
+            printf ("- %s\n", (char *) aux->conteudo);
             aux = aux->prox;
         }
     }

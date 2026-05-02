@@ -3,9 +3,9 @@
 
 #include "fila.h"
 
-typedef struct {
+typedef struct elementoFila{
     void *conteudo;
-    elementoFila *prox;
+    struct elementoFila *prox;
 } elementoFila;
 
 typedef struct {
@@ -114,7 +114,7 @@ void imprimirConteudoFila (FILA f) {
         printf ("Fila vazia.\n");
     } else {
         while (aux != NULL) {
-            printf ("- %s\n", aux->conteudo);
+            printf ("- %s\n", (char *) aux->conteudo);
             aux = aux->prox;
         }
     }
