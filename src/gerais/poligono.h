@@ -43,6 +43,15 @@ POLIGONO criarPoligono ();
  */
 int insertVertice_Poligono (POLIGONO p, double x, double y);
 
+/**
+ * @brief Remove o primeiro vértice inserido no polígono.
+ *
+ * @param p Polígono
+ *
+ * @return int 1 removido com sucesso
+ * @return int -1 erro
+ */
+int removePrimeiroVertice_Poligono (POLIGONO p, double *x, double *y);
 
 /**
  * @brief Retorna o número de vértices do polígono.
@@ -53,16 +62,17 @@ int insertVertice_Poligono (POLIGONO p, double x, double y);
  * @return int -1 erro (p == NULL)
  */
 int getNumeroVertices_Poligono (POLIGONO p);
+
 /**
- * @brief Retorna a fila de vértices do polígono.
+ * @brief Verifica se o polígono está vazio (não possui vertices).
  *
  * @param p Polígono
  *
- * @return FILA Fila de vértices
- * @return NULL erro (p == NULL)
+ * @return int 1 vazio
+ * @return int 0 não vazio
+ * @return int -1 erro (p == NULL)
  */
-FILA getFilaVertices_Poligono (POLIGONO p);
-
+int estaVazio_Poligono (POLIGONO p);
 
 /**
  * @brief Calcula o bounding box do polígono.
@@ -100,7 +110,7 @@ int produzBorda_Poligono (POLIGONO p, FILA f);
  * @return int 1 sucesso
  * @return int -1 erro
  */
-int hachura_Poligono (POLIGONO p, double distancia, char* corp, char* corb, FILA f);
+int hachura_Poligono (POLIGONO p, double distancia, char* corp, FILA f);
 
 
 /**
@@ -115,29 +125,10 @@ int hachura_Poligono (POLIGONO p, double distancia, char* corp, char* corb, FILA
  * @return int -1 erro (p == NULL)
  */
 int isInside_Poligono (POLIGONO p, double x, double y);
-/**
- * @brief Verifica se o polígono está vazio (não possui vertices).
- *
- * @param p Polígono
- *
- * @return int 1 vazio
- * @return int 0 não vazio
- * @return int -1 erro (p == NULL)
- */
-int estaVazio_Poligono (POLIGONO p);
 
 
-/**
- * @brief Remove um vértice do polígono.
- *
- * @param p Polígono
- * @param x Coordenada x
- * @param y Coordenada y
- *
- * @return int 1 removido com sucesso
- * @return int -1 erro
- */
-int removeVertice_Poligono (POLIGONO p, double x, double y);
+void limparPoligono (POLIGONO p);
+
 /**
  * @brief Libera a memória do polígono.
  *
