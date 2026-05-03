@@ -9,59 +9,95 @@
 
 int main(int argc, char *argv[]) {
 
-    char *geoPath = NULL;
-    char *outPath = ".";
+    char *dirEntrada = NULL;
+    char *geoNome = NULL;
+    char *qryNome = NULL;
+    char *dirSaida = NULL;
 
+    // =========================
+    // LEITURA DOS ARGUMENTOS
+    // =========================
     for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-f") == 0 && i + 1 < argc) {
-            geoPath = argv[++i];
-        } else if (strcmp(argv[i], "-o") == 0 && i + 1 < argc) {
-            outPath = argv[++i];
-        }
-    }
+        if (strcmp(argv[i], "-e") == 0 && i + 1 < argc)
+            dirEntrada = argv[++i];
 
-    if (!geoPath) {
-        printf("Arquivo .geo não informado\n");
-        return 1;
-    }
+        else if (strcmp(argv[i], "-f") == 0 && i + 1 < argc)
+            geoNome = argv[++i];
 
-    char *qryPath = NULL;
-
-    for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-f") == 0 && i + 1 < argc)
-            geoPath = argv[++i];
+        else if (strcmp(argv[i], "-q") == 0 && i + 1 < argc)
+            qryNome = argv[++i];
 
         else if (strcmp(argv[i], "-o") == 0 && i + 1 < argc)
-            outPath = argv[++i];
-
-        else if (strcmp(argv[i], "-q") == 0 && i + 1 < argc) // 🔧 NOVO
-            qryPath = argv[++i];
+            dirSaida = argv[++i];
     }
 
-    DadosArquivo arq = criarDadosArq(geoPath);
-
-    if (!arq) {
-        printf("Erro ao ler arquivo\n");
+    // =========================
+    // VALIDAÇÃO
+    // =========================
+    if (!geoNome || !dirSaida) {
+        printf("Uso: ./ted [-e <dirEntrada>] -f <geo> [-q <qry>] -o <dirSaida>\n");
         return 1;
     }
 
-    SISTEMA sis = processarGeo(arq);
+    if (!dirEntrada)
+        dirEntrada = ".";
 
-    gerarSVG(getListaFormas(sis), outPath, arq, NULL);
+    // =========================
+    // MONTA CAMINHO GEO
+    // =========================
+    char pathGeo[1024];
 
-    if (qryPath) {
-        DadosArquivo arqQry = criarDadosArq(qryPath);
+    if (geoNome[0] == '/' || geoNome[0] == '.')
+        snprintf(pathGeo, sizeof(pathGeo), "%s", geoNome);
+    else
+        snprintf(pathGeo, sizeof(pathGeo), "%s/%s", dirEntrada, geoNome);
 
-        executarQry(arqQry, getListaFormas(sis), outPath);
+    // =========================
+    // LÊ GEO
+    // =========================
+    DadosArquivo arqGeo = criarDadosArq(pathGeo);
+    if (!arqGeo) {
+        printf("Erro ao ler GEO: %s\n", pathGeo);
+        return 1;
+    }
+
+    SISTEMA sis = processarGeo(arqGeo);
+
+    gerarSVG(getListaFormas(sis), dirSaida, arqGeo, NULL);
+
+    // =========================
+    // MONTA E EXECUTA QRY
+    // =========================
+    if (qryNome) {
+
+        char pathQry[1024];
+
+        if (qryNome[0] == '/' || qryNome[0] == '.')
+            snprintf(pathQry, sizeof(pathQry), "%s", qryNome);
+        else
+            snprintf(pathQry, sizeof(pathQry), "%s/%s", dirEntrada, qryNome);
+
+        DadosArquivo arqQry = criarDadosArq(pathQry);
+
+        if (!arqQry) {
+            printf("Erro ao ler QRY: %s\n", pathQry);
+            destruirDadosArq(arqGeo);
+            killSistemaGeo(sis);
+            return 1;
+        }
+
+        executarQry(arqQry, arqGeo, getListaFormas(sis), dirSaida);
 
         destruirDadosArq(arqQry);
     }
 
+    // =========================
+    // FINALIZAÇÃO
+    // =========================
     killSistemaGeo(sis);
-    destruirDadosArq(arq);
+    destruirDadosArq(arqGeo);
 
-    printf("SVG gerado com sucesso.\n");
+    printf("Execução finalizada com sucesso.\n");
 
     return 0;
-
 }
