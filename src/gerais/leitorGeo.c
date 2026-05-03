@@ -18,7 +18,6 @@
 
 typedef struct {
     LISTA formas;          // banco de dados principal
-    LISTA selecionadas;    // usado no .qry (sel)
 } SistemaSt;
 
 static void exeCmd_Circulo(SistemaSt *sis);
@@ -35,7 +34,6 @@ SISTEMA processarGeo (DadosArquivo arqData){
         }
     
     sis->formas = criarLista();
-    sis->selecionadas = criarLista();
 
     while (!filaVazia(getFilaLinhasArq(arqData))){
         char *linha = (char *) popFila (getFilaLinhasArq(arqData));
@@ -67,26 +65,11 @@ SISTEMA processarGeo (DadosArquivo arqData){
 }
 
 
-
 LISTA getListaFormas(SISTEMA s) {
     SistemaSt *sis = (SistemaSt *) s;
     return sis->formas;
 }
 
-LISTA getListaSelecionadas(SISTEMA s) {
-    SistemaSt *sis = (SistemaSt *) s;
-    return sis->selecionadas;
-}
-
-void inserirFormaSelecionada(SISTEMA s, FORMA f) {
-    SistemaSt *sis = (SistemaSt *) s;
-    pushFimLista(sis->selecionadas, f);
-}
-
-void limparSelecionadas (SISTEMA s) {
-    SistemaSt *sis = (SistemaSt *) s;
-    limparLista (sis->selecionadas);
-}
 
 void killSistemaGeo (SISTEMA s){
     SistemaSt *sis = (SistemaSt *) s;
@@ -98,7 +81,6 @@ void killSistemaGeo (SISTEMA s){
 
     
     killLista (sis->formas);
-    killLista (sis->selecionadas);
     free (sis);
 }
 

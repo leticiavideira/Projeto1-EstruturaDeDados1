@@ -10,8 +10,6 @@ SISTEMA processarGeo (DadosArquivo arqData);
 
 LISTA getListaFormas(SISTEMA s);
 
-LISTA getListaSelecionadas(SISTEMA s);
-
 void killSistemaGeo (SISTEMA s);
 
 #endif
