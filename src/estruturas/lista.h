@@ -35,7 +35,7 @@ LISTA criarLista ();
  * @param conteudo Ponteiro para o conteúdo a ser inserido
  *
  * @return int 1 sucesso
- * @return int -1 erro
+ * @return int 0 erro
  */
 int pushInicioLista (LISTA l, void *conteudo);
 
@@ -46,14 +46,39 @@ int pushInicioLista (LISTA l, void *conteudo);
  * @param conteudo Ponteiro para o conteúdo a ser inserido
  *
  * @return int 1 sucesso
- * @return int -1 erro
+ * @return int 0 erro
  */
 int pushFimLista (LISTA l, void *conteudo);
 
+/**
+ * @brief Retorna o primeiro elemento (nó) da lista.
+ *
+ * @param l Lista
+ *
+ * @return void* Ponteiro para o elemento interno (nó da lista)
+ * @return NULL se lista vazia ou erro
+ */
 void* getInicioLista(LISTA l);
 
+/**
+ * @brief Retorna o próximo elemento (nó) da lista a partir de um elemento atual.
+ *
+ * @param l Lista
+ * @param atual Elemento atual (obtido previamente da lista)
+ *
+ * @return void* Próximo elemento
+ * @return NULL se não houver próximo ou erro
+ */
 void* getProximoLista(LISTA l, void* atual);
 
+/**
+ * @brief Retorna o conteúdo armazenado em um elemento da lista.
+ *
+ * @param elemento Elemento interno da lista
+ *
+ * @return void* Conteúdo armazenado
+ * @return NULL em caso de erro
+ */
 void* getConteudoElemLista (void *elemento);
 
 /**

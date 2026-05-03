@@ -243,7 +243,7 @@ int tamanhoLista (LISTA l) {
 
 int listaVazia (LISTA l) {
     if (l == NULL)
-        return 0;
+        return -1;
 
     Lista *l1 = (Lista *) l;
 

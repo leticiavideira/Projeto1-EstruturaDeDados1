@@ -59,7 +59,7 @@ int pushFila (FILA f, void *conteudo) {
 
 void *popFila (FILA f) {
     if (f == NULL)
-        return 0;
+        return NULL;
     
     Fila *f1 = ((Fila *) f);
 
@@ -96,7 +96,7 @@ int tamanhoFila (FILA f) {
 
 int filaVazia (FILA f) {
     if (f == NULL)
-        return 0;
+        return -1;
 
     Fila *f1 = ((Fila *) f);
 
