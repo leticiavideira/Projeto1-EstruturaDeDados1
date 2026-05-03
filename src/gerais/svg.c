@@ -45,7 +45,6 @@ static char *montarCaminhoSVG(const char *saidaPath, DadosArquivo arqData, const
     return caminho;
 }
 
-
 // =========================
 // FUNÇÃO PRINCIPAL
 // =========================
@@ -175,8 +174,24 @@ typedef struct {
     double x, y;
 } PontoRemovido;
 
-void gerarSVG_QRY(LISTA banco, LISTA selecionados, LISTA removidos, double sel_x, double sel_y, double sel_w, double sel_h, const char *saidaPath, DadosArquivo arqData) {
-    char *caminho = montarCaminhoSVG(saidaPath, arqData, "qry");
+void gerarSVG_QRY(LISTA banco, LISTA selecionados, LISTA removidos, double sel_x, double sel_y, double sel_w, double sel_h, const char *saidaPath, DadosArquivo arqGeo, DadosArquivo arqQry) {
+    char baseGeo[256], baseQry[256];
+
+    strcpy(baseGeo, getNomeArq(arqGeo));
+    strcpy(baseQry, getNomeArq(arqQry));
+
+    strtok(baseGeo, ".");
+    strtok(baseQry, ".");
+
+    size_t tam = strlen(saidaPath) + strlen(baseGeo) + strlen(baseQry) + 10;
+
+    char *caminho = malloc(tam);
+    if (!caminho) {
+        printf("Erro de memoria\n");
+        return;
+    }
+
+    snprintf(caminho, tam, "%s/%s-%s.svg", saidaPath, baseGeo, baseQry);
 
     FILE *arq = fopen(caminho, "w");
     if (!arq) {
@@ -203,7 +218,7 @@ void gerarSVG_QRY(LISTA banco, LISTA selecionados, LISTA removidos, double sel_x
                 CIRCULO c = getDataForma(f);
 
                 fprintf(arq,
-                    "<circle cx='%.2f' cy='%.2f' r='%.2f' fill='%s' stroke='%s'/>\n",
+                    "<circle cx='%.2f' cy='%.2f' r='%.2f' fill='%s' stroke='%s' fill-opacity='0.6' stroke-opacity='0.9'/>\n",
                     getX_C(c), getY_C(c), getR_C(c),
                     getCorP_C(c), getCorB_C(c)
                 );
@@ -213,7 +228,7 @@ void gerarSVG_QRY(LISTA banco, LISTA selecionados, LISTA removidos, double sel_x
                 RETANGULO r = getDataForma(f);
 
                 fprintf(arq,
-                    "<rect x='%.2f' y='%.2f' width='%.2f' height='%.2f' fill='%s' stroke='%s'/>\n",
+                    "<rect x='%.2f' y='%.2f' width='%.2f' height='%.2f' fill='%s' stroke='%s' fill-opacity='0.6' stroke-opacity='0.9'/>\n",
                     getX_R(r), getY_R(r),
                     getW_R(r), getH_R(r),
                     getCorP_R(r), getCorB_R(r)
