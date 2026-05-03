@@ -5,6 +5,6 @@
 #include "../estruturas/fila.h"
 #include "leitorDeArquivos.h"
 
-void executarQry(DadosArquivo arqQry, LISTA formasGeo, char *saidaPath);
+void executarQry(DadosArquivo arqQry, DadosArquivo arqGeo, LISTA formasGeo, char *saidaPath);
 
 #endif

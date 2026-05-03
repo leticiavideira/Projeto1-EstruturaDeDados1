@@ -124,7 +124,7 @@ static int formaDentroRegiao(FORMA f, double x, double y, double w, double h) {
 
 /* ======================== FUNÇÃO PRINCIPAL ======================== */
 
-void executarQry(DadosArquivo arqQry, LISTA formasGeo, char *saidaPath) {
+void executarQry(DadosArquivo arqQry, DadosArquivo arqGeo, LISTA formasGeo, char *saidaPath) {
     QrySt q;
     q.geo = formasGeo;
     q.selecionados = criarLista();
@@ -139,20 +139,31 @@ void executarQry(DadosArquivo arqQry, LISTA formasGeo, char *saidaPath) {
         q.poligonos[i] = criarPoligono();
 
     /* ===== CRIA NOME DO TXT ===== */
+    char *nomeGeo = getNomeArq (arqGeo);
     char *nomeQry = getNomeArq (arqQry);
 
-    char baseQry[256];
+    char baseQry[256], baseGeo[256];
+    strcpy (baseGeo, nomeGeo);
     strcpy (baseQry, nomeQry);
+    strtok (baseGeo, ".");
     strtok (baseQry, ".");
 
-    char pathTxt[512];
-    sprintf (pathTxt, "%s/%s.txt", saidaPath, baseQry);
+    size_t tam = strlen(saidaPath) + strlen(baseGeo) + strlen(baseQry) + 10;
+
+    char *pathTxt = malloc(tam);
+    if (!pathTxt) {
+        printf("Erro de memoria\n");
+        return;
+    }
+    snprintf(pathTxt, tam, "%s/%s-%s.txt", saidaPath, baseGeo, baseQry);
 
     q.txt = fopen (pathTxt, "w");
         if (!q.txt){
             printf ("Erro ao criar arquivo txt.\n");
             return;
         }
+    
+    free (pathTxt);
 
 
     while (!filaVazia (getFilaLinhasArq (arqQry))) {
@@ -195,6 +206,7 @@ void executarQry(DadosArquivo arqQry, LISTA formasGeo, char *saidaPath) {
         q.pontosRemovidos,
         q.sel_x, q.sel_y, q.sel_w, q.sel_h,
         saidaPath,
+        arqGeo,
         arqQry
     );
     
@@ -265,24 +277,33 @@ static void exePol(QrySt *q, char *params){
     FILA linhas = criarFila();
 
     // gera borda
-    produzBorda_Poligono(pol, linhas);
+    int qtdBorda = produzBorda_Poligono(pol, linhas);
 
     // gera preenchimento
     hachura_Poligono(pol, d, corp, linhas);
 
     int idAtual = id;
 
+    int count = 0;
+
     while (!filaVazia(linhas)) {
 
         LINHA l = popFila(linhas);
 
         setId_L(l, idAtual++);
-        // ajustar cor da borda
-        setCor_L(l, corb);
+
+        if (count < qtdBorda) {
+            // borda
+            setCor_L(l, corb);
+        } else {
+            // hachura (preenchimento)
+            setCor_L(l, corp);
+        }
 
         FORMA f = criarForma(FORMA_LINHA, l);
-
         pushFimLista(q->banco, f);
+
+        count++;
     }
 
     killFila(linhas);
