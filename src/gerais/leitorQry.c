@@ -48,79 +48,9 @@ static void exeSel(QrySt *q, char *params);
 static void exeDels(QrySt *q);
 static void exeMcs(QrySt *q, char *params);
 
-static POLIGONO getPoligono(QrySt *q, int p) {
-    if (p < 1 || p > 10) return NULL;
-    return q->poligonos[p];
-}
-
-FORMA buscarFormaPorId(LISTA lista, int id) {
-    void *el = getInicioLista(lista);
-
-    while (el != NULL) {
-        FORMA f = getConteudoElemLista(el);
-
-        if (getIdForma(f) == id)
-            return f;
-
-        el = getProximoLista(lista, el);
-    }
-
-    return NULL;
-}
-
-static int formaDentroRegiao(FORMA f, double x, double y, double w, double h) {
-
-    FormaTipo tipo = getTipoForma(f);
-
-    if (tipo == FORMA_CIRCULO) {
-        CIRCULO c = getDataForma(f);
-
-        double cx = getX_C(c);
-        double cy = getY_C(c);
-        double r = getR_C(c);
-
-        return (cx - r >= x &&
-                cx + r <= x + w &&
-                cy - r >= y &&
-                cy + r <= y + h);
-    }
-
-    if (tipo == FORMA_RETANGULO) {
-        RETANGULO r = getDataForma(f);
-
-        double rx = getX_R(r);
-        double ry = getY_R(r);
-        double rw = getW_R(r);
-        double rh = getH_R(r);
-
-        return (rx >= x &&
-                rx + rw <= x + w &&
-                ry >= y &&
-                ry + rh <= y + h);
-    }
-
-    if (tipo == FORMA_LINHA) {
-        LINHA l = getDataForma(f);
-
-        double x1 = getX1_L(l), y1 = getY1_L(l);
-        double x2 = getX2_L(l), y2 = getY2_L(l);
-
-        return (x1 >= x && x1 <= x+w && y1 >= y && y1 <= y+h &&
-                x2 >= x && x2 <= x+w && y2 >= y && y2 <= y+h);
-    }
-
-    if (tipo == FORMA_TEXTO) {
-        TEXTO t = getDataForma(f);
-
-        double tx = getX_T(t);
-        double ty = getY_T(t);
-
-        return (tx >= x && tx <= x+w && ty >= y && ty <= y+h);
-    }
-
-    return 0;
-}
-
+static POLIGONO getPoligono(QrySt *q, int p);
+static FORMA buscarFormaPorId(LISTA lista, int id);
+static int formaDentroRegiao(FORMA f, double x, double y, double w, double h);
 
 /* ======================== FUNÇÃO PRINCIPAL ======================== */
 
@@ -138,7 +68,7 @@ void executarQry(DadosArquivo arqQry, DadosArquivo arqGeo, LISTA formasGeo, char
     for (int i = 1 ; i <= 10 ; i++)
         q.poligonos[i] = criarPoligono();
 
-    /* ===== CRIA NOME DO TXT ===== */
+    //cria nome do txt
     char *nomeGeo = getNomeArq (arqGeo);
     char *nomeQry = getNomeArq (arqQry);
 
@@ -228,7 +158,7 @@ void executarQry(DadosArquivo arqQry, DadosArquivo arqGeo, LISTA formasGeo, char
 }
 
 
-
+/* ======================== IMPLEMENTAÇÃO DAS FUNÇÕES AUXILIARES ======================== */
 static void exeInp(QrySt *q, char *params){
     int p, id;
     sscanf(params, "%d %d", &p, &id);
@@ -279,7 +209,7 @@ static void exePol(QrySt *q, char *params){
     // gera borda
     int qtdBorda = produzBorda_Poligono(pol, linhas);
 
-    // gera preenchimento
+    // gera preenchimento (hachura)
     hachura_Poligono(pol, d, corp, linhas);
 
     int idAtual = id;
@@ -425,4 +355,77 @@ static void exeMcs(QrySt *q, char *params){
         "[*] mcs dx=%.2f dy=%.2f corb=%s corp=%s\n",
         dx, dy, corb, corp
     );
+}
+
+static POLIGONO getPoligono(QrySt *q, int p) {
+    if (p < 1 || p > 10) return NULL;
+    return q->poligonos[p];
+}
+
+static FORMA buscarFormaPorId(LISTA lista, int id) {
+    void *el = getInicioLista(lista);
+
+    while (el != NULL) {
+        FORMA f = getConteudoElemLista(el);
+
+        if (getIdForma(f) == id)
+            return f;
+
+        el = getProximoLista(lista, el);
+    }
+
+    return NULL;
+}
+
+static int formaDentroRegiao(FORMA f, double x, double y, double w, double h) {
+
+    FormaTipo tipo = getTipoForma(f);
+
+    if (tipo == FORMA_CIRCULO) {
+        CIRCULO c = getDataForma(f);
+
+        double cx = getX_C(c);
+        double cy = getY_C(c);
+        double r = getR_C(c);
+
+        return (cx - r >= x &&
+                cx + r <= x + w &&
+                cy - r >= y &&
+                cy + r <= y + h);
+    }
+
+    if (tipo == FORMA_RETANGULO) {
+        RETANGULO r = getDataForma(f);
+
+        double rx = getX_R(r);
+        double ry = getY_R(r);
+        double rw = getW_R(r);
+        double rh = getH_R(r);
+
+        return (rx >= x &&
+                rx + rw <= x + w &&
+                ry >= y &&
+                ry + rh <= y + h);
+    }
+
+    if (tipo == FORMA_LINHA) {
+        LINHA l = getDataForma(f);
+
+        double x1 = getX1_L(l), y1 = getY1_L(l);
+        double x2 = getX2_L(l), y2 = getY2_L(l);
+
+        return (x1 >= x && x1 <= x+w && y1 >= y && y1 <= y+h &&
+                x2 >= x && x2 <= x+w && y2 >= y && y2 <= y+h);
+    }
+
+    if (tipo == FORMA_TEXTO) {
+        TEXTO t = getDataForma(f);
+
+        double tx = getX_T(t);
+        double ty = getY_T(t);
+
+        return (tx >= x && tx <= x+w && ty >= y && ty <= y+h);
+    }
+
+    return 0;
 }
