@@ -44,7 +44,7 @@ POLIGONO criarPoligono ();
 int insertVertice_Poligono (POLIGONO p, double x, double y);
 
 /**
- * @brief Remove o primeiro vértice inserido no polígono.
+ * @brief Remove o primeiro vértice inserido no polígono (ou seja, o mais antigo).
  *
  * @param p Polígono
  *
@@ -98,6 +98,7 @@ int getBoundingBox_Poligono (POLIGONO p, double *x, double *y, double *w, double
  * @return int -1 erro
  */
 int produzBorda_Poligono (POLIGONO p, FILA f);
+
 /**
  * @brief Gera hachura interna do polígono.
  *
@@ -126,7 +127,11 @@ int hachura_Poligono (POLIGONO p, double distancia, char* corp, FILA f);
  */
 int isInside_Poligono (POLIGONO p, double x, double y);
 
-
+/**
+ * @brief Remove todos os vértices do poligono, mantendo a estrutura válida.
+ *
+ * @param p Polígono
+ */
 void limparPoligono (POLIGONO p);
 
 /**
