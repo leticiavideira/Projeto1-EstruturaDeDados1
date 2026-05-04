@@ -47,42 +47,56 @@ CIRCULO criaCirculo (int i, double x, double y, double r, char* corb, char* corp
 }
 
 int getId_C (CIRCULO c){
+    if (c == NULL)
+        return 0;
     circulo *c1 = ((circulo*) c);
     return (c1->i);
 
 }
 
 double getX_C (CIRCULO c){
+    if (c == NULL)
+        return 0;
     circulo *c1 = ((circulo*) c);
     return (c1->x);
 
 }
 
 double getY_C (CIRCULO c){
+    if (c == NULL)
+        return 0;
     circulo *c1 = ((circulo*) c);
     return (c1->y);
 
 }
 
 double getR_C (CIRCULO c){
+    if (c == NULL)
+        return 0;
     circulo *c1 = ((circulo*) c);
     return (c1->r);
 
 }
 
 double calcularArea_C (CIRCULO c){
+    if (c == NULL)
+        return 0;
     circulo *c1 = ((circulo*) c);
     return (c1->r * c1->r * pi);
 
 }
 
 char* getCorB_C (CIRCULO c){
+    if (c == NULL)
+        return NULL;
     circulo *c1 = ((circulo*) c);
     return (c1->corb);
 
 }
 
 char* getCorP_C (CIRCULO c){
+    if (c == NULL)
+        return NULL;
     circulo *c1 = ((circulo*) c);
     return (c1->corp);
 
@@ -92,26 +106,36 @@ char* getCorP_C (CIRCULO c){
 
 
 void setId_C (CIRCULO c, int i){
+    if (c == NULL)
+        return;
     circulo *c1 = ((circulo*) c);
     c1->i = i;
 }
 
 void setX_C (CIRCULO c, double x){
+    if (c == NULL)
+        return;
     circulo *c1 = ((circulo*) c);
     c1->x = x;
 }
 
 void setY_C (CIRCULO c, double y){
+    if (c == NULL)
+        return;
     circulo *c1 = ((circulo*) c);
     c1->y = y;
 }
 
 void setR_C (CIRCULO c, double r){
+    if (c == NULL)
+        return;
     circulo *c1 = ((circulo*) c);
     c1->r = r;
 }
 
 void setCorB_C (CIRCULO c, char* cb){
+    if (c == NULL)
+        return;
     circulo *c1 = ((circulo*) c);
 
     free (c1->corb);
@@ -128,6 +152,8 @@ void setCorB_C (CIRCULO c, char* cb){
 }
 
 void setCorP_C (CIRCULO c, char* cp){
+    if (c == NULL)
+        return;
     circulo *c1 = ((circulo*) c);
 
     free (c1->corp);
@@ -143,6 +169,8 @@ void setCorP_C (CIRCULO c, char* cp){
 }
 
 void kill_C (CIRCULO c){
+    if (c == NULL)
+        return;
     circulo *c1 = ((circulo*) c);
     free (c1->corb);
     free (c1->corp);

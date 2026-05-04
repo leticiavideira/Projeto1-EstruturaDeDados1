@@ -15,6 +15,8 @@ typedef struct {
 } FormaSt;
 
 FORMA criarForma(FormaTipo tipo, void *data) {
+    if (data == NULL)
+        return NULL;
     FormaSt *f = malloc(sizeof(FormaSt));
     if (!f) exit(1);
 
@@ -38,6 +40,8 @@ char* getNomeForma (FORMA f) {
 }
 
 int getIdForma(FORMA f) {
+    if (f == NULL)
+        return -1;
     FormaSt *forma = (FormaSt*) f;
 
     switch (forma->tipo) {
@@ -59,6 +63,8 @@ int getIdForma(FORMA f) {
 }
 
 void getAncoraForma(FORMA f, double *x, double *y) {
+    if (f == NULL)
+        return;
     FormaSt *forma = (FormaSt*) f;
 
     switch (forma->tipo) {
@@ -110,14 +116,20 @@ void getAncoraForma(FORMA f, double *x, double *y) {
 }
 
 FormaTipo getTipoForma(FORMA f) {
+    if (f == NULL)
+        return 0;
     return ((FormaSt*)f)->tipo;
 }
 
 void* getDataForma(FORMA f) {
+    if (f == NULL)
+        return NULL;
     return ((FormaSt*)f)->data;
 }
 
 void setCorBordaForma(FORMA f, char *cor) {
+    if (f == NULL || cor == NULL)
+        return;
     FormaSt *forma = (FormaSt*) f;
 
     switch (forma->tipo) {
@@ -144,6 +156,8 @@ void setCorBordaForma(FORMA f, char *cor) {
 }
 
 void setCorPreenchimentoForma(FORMA f, char *cor) {
+    if (f == NULL || cor == NULL)
+        return;
     FormaSt *forma = (FormaSt*) f;
 
     switch (forma->tipo) {
@@ -166,6 +180,8 @@ void setCorPreenchimentoForma(FORMA f, char *cor) {
 }
 
 void moverForma(FORMA f, double dx, double dy) {
+    if (f == NULL)
+        return;
     FormaSt *forma = (FormaSt*) f;
 
     switch (forma->tipo) {
@@ -206,6 +222,8 @@ void moverForma(FORMA f, double dx, double dy) {
 }
 
 void printFormaTXT(FILE *txt, FORMA f) {
+    if (txt == NULL || f == NULL)
+        return;
 
     FormaTipo t = getTipoForma(f);
 
@@ -247,6 +265,8 @@ void printFormaTXT(FILE *txt, FORMA f) {
 }
 
 void killForma(FORMA f) {
+    if (f == NULL)
+        return;
     FormaSt *forma = (FormaSt*) f;
 
     switch (forma->tipo) {

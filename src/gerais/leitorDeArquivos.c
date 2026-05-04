@@ -34,7 +34,7 @@ DadosArquivo criarDadosArq (char * arqPath){
             return NULL;
         }
 
-    arquivo->arqPath = arqPath;
+    arquivo->arqPath = duplicaString(arqPath);
     arquivo->arqNome = strrchr(arqPath, '/') ? strrchr(arqPath, '/') + 1 : arqPath;
 
     struct filaEPilhaLinhas *filaPilha = leArqFilaPilha (arqPath);
@@ -45,6 +45,8 @@ DadosArquivo criarDadosArq (char * arqPath){
             if (filaPilha != NULL)
                 free(filaPilha);
 
+            free (arquivo->arqPath);
+            free (arquivo);
             return NULL;
         }
     
@@ -183,6 +185,7 @@ void destruirDadosArq (DadosArquivo arqData){
 
         killFila (arquivo->filaLinhas);
 
+        free (arquivo->arqPath);
         free (arqData);
     }
 }

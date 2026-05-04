@@ -68,12 +68,16 @@ SISTEMA processarGeo (DadosArquivo arqData){
 
 
 LISTA getListaFormas(SISTEMA s) {
+    if (s == NULL)
+        return NULL;
     SistemaSt *sis = (SistemaSt *) s;
     return sis->formas;
 }
 
 
 void killSistemaGeo (SISTEMA s){
+    if (s == NULL)
+        return;
     SistemaSt *sis = (SistemaSt *) s;
     
     while (!listaVazia(sis->formas)) {

@@ -39,36 +39,50 @@ LINHA criaLinha (int i, double x1, double y1, double x2, double y2, char* cor){
 }
 
 int getId_L (LINHA l){
+    if (l == NULL)
+        return 0;
     linha *l1 = ((linha*) l);
     return (l1->i);
 }
 
 double getX1_L (LINHA l){
+    if (l == NULL)
+        return 0;
     linha *l1 = ((linha*) l);
     return (l1->x1);
 }
 
 double getY1_L (LINHA l){
+    if (l == NULL)
+        return 0;
     linha *l1 = ((linha*) l);
     return (l1->y1);
 }
 
 double getX2_L (LINHA l){
+    if (l == NULL)
+        return 0;
     linha *l1 = ((linha*) l);
     return (l1->x2);
 }
 
 double getY2_L (LINHA l){
+    if (l == NULL)
+        return 0;
     linha *l1 = ((linha*) l);
     return (l1->y2);
 }
 
 char* getCor_L (LINHA l){
+    if (l == NULL)
+        return NULL;
     linha *l1 = ((linha*) l);
     return (l1->cor);
 }
 
 double calcularArea_L (LINHA l){
+    if (l == NULL)
+        return 0;
     linha *l1 = ((linha*) l);
     
     double a = (l1->x2) - (l1->x1);
@@ -79,31 +93,43 @@ double calcularArea_L (LINHA l){
 
 
 void setId_L (LINHA l, int i){
+    if (l == NULL)
+        return;
     linha *l1 = ((linha*) l);
     l1->i = i;
 }
 
 void setX1_L (LINHA l, double x1){
+    if (l == NULL)
+        return;
     linha *l1 = ((linha*) l);
     l1->x1 = x1;
 }
 
 void setY1_L (LINHA l, double y1){
+    if (l == NULL)
+        return;
     linha *l1 = ((linha*) l);
     l1->y1 = y1;
 }
 
 void setX2_L (LINHA l, double x2){
+    if (l == NULL)
+        return;
     linha *l1 = ((linha*) l);
     l1->x2 = x2;
 }
 
 void setY2_L (LINHA l, double y2){
+    if (l == NULL)
+        return;
     linha *l1 = ((linha*) l);
     l1->y2 = y2;
 }
 
 void setCor_L (LINHA l, char* cor){
+    if (l == NULL)
+        return;
     linha *l1 = ((linha*) l);
 
     free(l1->cor);
@@ -120,6 +146,8 @@ void setCor_L (LINHA l, char* cor){
 
 
 void kill_L (LINHA l){
+    if (l == NULL)
+        return;
     linha *l1 = ((linha*) l);
     free(l1->cor);
     free(l1);

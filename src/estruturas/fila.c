@@ -62,6 +62,8 @@ void *popFila (FILA f) {
         return NULL;
     
     Fila *f1 = ((Fila *) f);
+        if(f1->inicio == NULL)
+            return NULL;
 
     elementoFila *remover = f1->inicio;
     void *conteudo = remover->conteudo;
@@ -81,7 +83,8 @@ void *primeiroElementoFila (FILA f) {
         return NULL;
     
     Fila *f1 = (Fila *) f;
-
+        if (f1->inicio == NULL)
+            return NULL;
     return (f1->inicio->conteudo);
 }
 

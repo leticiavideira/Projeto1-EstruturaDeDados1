@@ -55,6 +55,9 @@ static int formaDentroRegiao(FORMA f, double x, double y, double w, double h);
 /* ======================== FUNÇÃO PRINCIPAL ======================== */
 
 void executarQry(DadosArquivo arqQry, DadosArquivo arqGeo, LISTA formasGeo, char *saidaPath) {
+    if (arqQry == NULL || arqGeo == NULL || formasGeo == NULL || saidaPath == NULL)
+        return;
+        
     QrySt q;
     q.geo = formasGeo;
     q.selecionados = criarLista();

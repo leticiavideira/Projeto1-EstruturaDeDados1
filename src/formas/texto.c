@@ -55,46 +55,64 @@ TEXTO criaTexto (int i, double x, double y, char* corb, char* corp, char a, char
 }
 
 int getId_T (TEXTO t){
+    if (t == NULL)
+        return 0;
     texto *t1 = ((texto*) t);
     return (t1->i);
 }
 
 double getX_T (TEXTO t){
+    if (t == NULL)
+        return 0;
      texto *t1 = ((texto*) t);
     return (t1->x);
 }
 
 double getY_T (TEXTO t){
+    if (t == NULL)
+        return 0;
      texto *t1 = ((texto*) t);
     return (t1->y);
 }
 
 char* getCorb_T (TEXTO t){
+    if (t == NULL)
+        return NULL;
      texto *t1 = ((texto*) t);
     return (t1->corb);
 }
 
 char* getCorp_T (TEXTO t){
+    if (t == NULL)
+        return NULL;
      texto *t1 = ((texto*) t);
     return (t1->corp);
 }
 
 char getA_T (TEXTO t){
+    if (t == NULL)
+        return 0;
      texto *t1 = ((texto*) t);
     return (t1->a);
 }
 
 char* getTxto_T (TEXTO t){
+    if (t == NULL)
+        return NULL;
      texto *t1 = ((texto*) t);
     return (t1->txto);
 }
 
 double comprimento_T (TEXTO t){
+    if (t == NULL)
+        return 0;
     texto *t1 = ((texto*) t);
     return (10 * strlen(t1->txto));
 }
 
 double calcX1_T (TEXTO t){
+    if (t == NULL)
+        return 0;
     texto *t1 = ((texto*) t);
     
     double x1;
@@ -116,6 +134,8 @@ double calcX1_T (TEXTO t){
 }
 
 double calcX2_T (TEXTO t){
+    if (t == NULL)
+        return 0;
     texto *t1 = ((texto*) t);
 
     double x2;
@@ -140,27 +160,37 @@ double calcX2_T (TEXTO t){
 
 
 double calcularArea_T (TEXTO t){
+    if (t == NULL)
+        return 0;
      texto *t1 = ((texto*) t);
     return (20 * strlen(t1->txto));
 }
 
 
 void setId_T (TEXTO t, int i){
+    if (t == NULL)
+        return;
     texto *t1 = ((texto*) t);
     t1->i = i;
 }
 
 void setX_T (TEXTO t, double x){
+    if (t == NULL)
+        return;
     texto *t1 = ((texto*) t);
     t1->x = x;
 }
 
 void setY_T (TEXTO t, double y){
+    if (t == NULL)
+        return;
     texto *t1 = ((texto*) t);
     t1->y = y;
 }
 
 void setCorb_T (TEXTO t, char* cb){
+    if (t == NULL)
+        return;
     texto *t1 = ((texto*) t);
     
     free(t1->corb);
@@ -176,6 +206,8 @@ void setCorb_T (TEXTO t, char* cb){
 }
 
 void setCorp_T (TEXTO t, char* cp){
+    if (t == NULL)
+        return;
     texto *t1 = ((texto*) t);
 
     free(t1->corp);
@@ -191,11 +223,15 @@ void setCorp_T (TEXTO t, char* cp){
 }
 
 void setA_T (TEXTO t, char a){
+    if (t == NULL)
+        return;
     texto *t1 = ((texto*) t); 
     t1->a = a;
 }
 
 void setTxto_T (TEXTO t, char* txto){
+    if (t == NULL)
+        return;
     texto *t1 = ((texto*) t);
 
     free(t1->txto);
@@ -211,6 +247,8 @@ void setTxto_T (TEXTO t, char* txto){
 }
 
 void kill_T (TEXTO t){
+    if (t == NULL)
+        return;
     texto *t1 = ((texto*) t);
 
     free(t1->corb);

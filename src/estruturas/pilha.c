@@ -51,6 +51,8 @@ void *popPilha (PILHA p) {
         return NULL;
 
     Pilha *p1 = ((Pilha *) p);
+        if (p1->topo == NULL)
+            return NULL;
 
     elementoPilha *remover = p1->topo;
     void *conteudo = remover->conteudo;
@@ -67,7 +69,8 @@ void *topoPilha (PILHA p) {
         return NULL;
 
     Pilha *p1 = ((Pilha *) p);
-
+        if (p1->topo == NULL)
+            return NULL;
     return (p1->topo->conteudo);
 }
 

@@ -77,9 +77,6 @@ void gerarSVG(LISTA formas, const char *saidaPath, DadosArquivo arqData, const c
     fprintf(arq, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
     fprintf(arq, "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1000 1000\">\n");
 
-    // =========================
-    // ITERAÇÃO NA LISTA (CORRETA)
-    // =========================
     void *el = getInicioLista(formas);
 
     while (el != NULL) {
@@ -160,9 +157,6 @@ void gerarSVG(LISTA formas, const char *saidaPath, DadosArquivo arqData, const c
         el = getProximoLista(formas, el);
     }
 
-    // =========================
-    // FINALIZAÇÃO
-    // =========================
     fprintf(arq, "</svg>\n");
 
     fclose(arq);
@@ -175,6 +169,10 @@ typedef struct {
 } PontoRemovido;
 
 void gerarSVG_QRY(LISTA banco, LISTA selecionados, LISTA removidos, double sel_x, double sel_y, double sel_w, double sel_h, const char *saidaPath, DadosArquivo arqGeo, DadosArquivo arqQry) {
+    if (banco == NULL || selecionados == NULL || removidos == NULL || saidaPath == NULL || arqGeo == NULL || arqQry == NULL) {
+        printf("Erro: parametros invalidos em gerarSVG_QRY\n");
+        return;
+    }
     char baseGeo[256], baseQry[256];
 
     strcpy(baseGeo, getNomeArq(arqGeo));
@@ -204,7 +202,7 @@ void gerarSVG_QRY(LISTA banco, LISTA selecionados, LISTA removidos, double sel_x
     fprintf(arq, "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1000 1000\">\n");
 
     // =========================
-    // 1. DESENHA FORMAS DO BANCO
+    // DESENHA FORMAS DO BANCO
     // =========================
     void *el = getInicioLista(banco);
 
@@ -275,7 +273,7 @@ void gerarSVG_QRY(LISTA banco, LISTA selecionados, LISTA removidos, double sel_x
     }
 
     // =========================
-    // 2. DESENHAR REGIÃO DE SELEÇÃO
+    // DESENHAR REGIÃO DE SELEÇÃO
     // =========================
     if (sel_w > 0 && sel_h > 0) {
         fprintf(arq,
@@ -286,7 +284,7 @@ void gerarSVG_QRY(LISTA banco, LISTA selecionados, LISTA removidos, double sel_x
     }
 
     // =========================
-    // 3. DESENHAR ÂNCORAS SELECIONADAS
+    // DESENHAR ÂNCORAS SELECIONADAS
     // =========================
     el = getInicioLista(selecionados);
 
@@ -305,7 +303,7 @@ void gerarSVG_QRY(LISTA banco, LISTA selecionados, LISTA removidos, double sel_x
     }
 
     // =========================
-    // 4. DESENHAR X DAS REMOVIDAS
+    // DESENHAR X DAS REMOVIDAS
     // =========================
     el = getInicioLista(removidos);
 

@@ -44,41 +44,57 @@ RETANGULO criaRetangulo (int i, double x, double y, double w, double h, char* co
 }
 
 int getId_R (RETANGULO r){
+    if (r == NULL)
+        return 0;
     retangulo *r1 = ((retangulo*) r);
     return (r1->i);
 }
 
 double getX_R (RETANGULO r){
+    if (r == NULL)
+        return 0;
     retangulo *r1 = ((retangulo*) r);
     return (r1->x);
 }
 
 double getY_R (RETANGULO r){
+    if (r == NULL)
+        return 0;
     retangulo *r1 = ((retangulo*) r);
     return (r1->y);
 }
 
 double getW_R (RETANGULO r){
+    if (r == NULL)
+        return 0;
     retangulo *r1 = ((retangulo*) r);
     return (r1->w);
 }
 
 double getH_R (RETANGULO r){
+    if (r == NULL)
+        return 0;
     retangulo *r1 = ((retangulo*) r);
     return (r1->h);
 }
 
 double calcularArea_R (RETANGULO r){
+    if (r == NULL)
+        return 0;
     retangulo *r1 = ((retangulo*) r);
     return (r1->w * r1->h);
 }
 
 char* getCorB_R (RETANGULO r){
+    if (r == NULL)
+        return NULL;
     retangulo *r1 = ((retangulo*) r);
     return (r1->corb);
 }
 
 char* getCorP_R (RETANGULO r){
+    if (r == NULL)
+        return NULL;
     retangulo *r1 = ((retangulo*) r);
     return (r1->corp);
 }
@@ -86,31 +102,43 @@ char* getCorP_R (RETANGULO r){
 
 
 void setId_R (RETANGULO r, int i){
+    if (r == NULL)
+        return;
     retangulo *r1 = ((retangulo*) r);
     r1->i = i;
 }
 
 void setX_R (RETANGULO r, double x){
+    if (r == NULL)
+        return;
     retangulo *r1 = ((retangulo*) r);
     r1->x = x;
 }
 
 void setY_R (RETANGULO r, double y){
+    if (r == NULL)
+        return;
     retangulo *r1 = ((retangulo*) r);
     r1->y = y;
 }
 
 void setW_R (RETANGULO r, double w){
+    if (r == NULL)
+        return;
     retangulo *r1 = ((retangulo*) r);
     r1->w = w;
 }
 
 void setH_R (RETANGULO r, double h){
+    if (r == NULL)
+        return;
     retangulo *r1 = ((retangulo*) r);
     r1->h = h;
 }
 
 void setCorB_R (RETANGULO r, char* cb){
+    if (r == NULL)
+        return;
     retangulo *r1 = ((retangulo*) r);
 
     free(r1->corb);
@@ -126,6 +154,8 @@ void setCorB_R (RETANGULO r, char* cb){
 }
 
 void setCorP_R (RETANGULO r, char* cp){
+    if (r == NULL)
+        return;
     retangulo *r1 = ((retangulo*) r);
 
     free(r1->corp);

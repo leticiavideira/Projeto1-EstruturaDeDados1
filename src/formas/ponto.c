@@ -18,11 +18,15 @@ PONTO criarPonto(double x, double y) {
 }
 
 void getPonto(PONTO p, double *x, double *y) {
+    if (p == NULL)
+        return;
     PontoSt *pt = p;
     *x = pt->x;
     *y = pt->y;
 }
 
 void killPonto(PONTO p) {
+    if (p == NULL)
+        return;
     free(p);
 }
