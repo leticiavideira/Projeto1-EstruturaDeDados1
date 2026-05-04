@@ -9,6 +9,9 @@ typedef struct {
 
 PONTO criarPonto(double x, double y) {
     PontoSt *p = malloc(sizeof(PontoSt));
+        if (p == NULL)
+            return NULL;
+
     p->x = x;
     p->y = y;
     return p;

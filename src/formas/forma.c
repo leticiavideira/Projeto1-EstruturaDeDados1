@@ -25,6 +25,9 @@ FORMA criarForma(FormaTipo tipo, void *data) {
 }
 
 char* getNomeForma (FORMA f) {
+    if (f == NULL) 
+        return NULL;
+
     switch (getTipoForma(f)) {
         case FORMA_CIRCULO:   return "circulo";
         case FORMA_RETANGULO: return "retangulo";
