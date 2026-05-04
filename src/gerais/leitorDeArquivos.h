@@ -1,7 +1,7 @@
 #ifndef LEITOR_DE_ARQUIVOS_H
 #define LEITOR_DE_ARQUIVOS_H
 
-#include "./estruturas/fila.h"
+#include "../estruturas/fila.h"
 
 /**
  * @file leitorDeArquivos.h

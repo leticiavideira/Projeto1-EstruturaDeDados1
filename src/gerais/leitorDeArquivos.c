@@ -3,8 +3,8 @@
 #include <string.h>
 
 #include "leitorDeArquivos.h"
-#include "./estruturas/fila.h"
-#include "./estruturas/pilha.h"
+#include "../estruturas/fila.h"
+#include "../estruturas/pilha.h"
 
 
 struct DadosArquivo {
