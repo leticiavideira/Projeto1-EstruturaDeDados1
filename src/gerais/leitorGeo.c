@@ -17,15 +17,17 @@
 
 
 typedef struct {
-    LISTA formas;          // banco de dados principal
+    LISTA formas;   // banco de dados principal
 } SistemaSt;
 
+/* ======================== FUNÇÕES AUXILIARES ======================== */
 static void exeCmd_Circulo(SistemaSt *sis);
 static void exeCmd_Retangulo(SistemaSt *sis);
 static void exeCmd_Linha(SistemaSt *sis);
 static void exeCmd_Texto(SistemaSt *sis);
 static void exeCmd_EstiloTexto(SistemaSt *sis);
 
+/* ======================== FUNÇÔES PRINCIPAIS ======================== */
 SISTEMA processarGeo (DadosArquivo arqData){
     SistemaSt *sis = malloc (sizeof (SistemaSt));
         if (sis == NULL){
@@ -84,6 +86,7 @@ void killSistemaGeo (SISTEMA s){
     free (sis);
 }
 
+/* ======================== IMPLEMENTAÇÃO DAS FUNÇÕES AUXILIARES ======================== */
 
 static void exeCmd_Circulo(SistemaSt *sis) {
     char *id = strtok(NULL, " ");
