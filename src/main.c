@@ -14,9 +14,8 @@ int main(int argc, char *argv[]) {
     char *qryNome = NULL;
     char *dirSaida = NULL;
 
-    // =========================
-    // LEITURA DOS ARGUMENTOS
-    // =========================
+    /*==========leitura dos argumentos==============*/
+
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-e") == 0 && i + 1 < argc)
             dirEntrada = argv[++i];
@@ -31,9 +30,8 @@ int main(int argc, char *argv[]) {
             dirSaida = argv[++i];
     }
 
-    // =========================
-    // VALIDAÇÃO
-    // =========================
+    /*==========validação==============*/
+
     if (!geoNome || !dirSaida) {
         printf("Uso: ./ted [-e <dirEntrada>] -f <geo> [-q <qry>] -o <dirSaida>\n");
         return 1;
@@ -42,9 +40,8 @@ int main(int argc, char *argv[]) {
     if (!dirEntrada)
         dirEntrada = ".";
 
-    // =========================
-    // MONTA CAMINHO GEO
-    // =========================
+    /*===========monta caminho GEO==============*/
+
     char pathGeo[1024];
 
     if (geoNome[0] == '/' || geoNome[0] == '.')
@@ -52,9 +49,8 @@ int main(int argc, char *argv[]) {
     else
         snprintf(pathGeo, sizeof(pathGeo), "%s/%s", dirEntrada, geoNome);
 
-    // =========================
-    // LÊ GEO
-    // =========================
+    /* ==========lê GEO===============*/
+   
     DadosArquivo arqGeo = criarDadosArq(pathGeo);
     if (!arqGeo) {
         printf("Erro ao ler GEO: %s\n", pathGeo);
@@ -65,9 +61,8 @@ int main(int argc, char *argv[]) {
 
     gerarSVG(getListaFormas(sis), dirSaida, arqGeo, NULL);
 
-    // =========================
-    // MONTA E EXECUTA QRY
-    // =========================
+    /*===========monta e executa QRY==============*/
+
     if (qryNome) {
 
         char pathQry[1024];
@@ -91,9 +86,8 @@ int main(int argc, char *argv[]) {
         destruirDadosArq(arqQry);
     }
 
-    // =========================
-    // FINALIZAÇÃO
-    // =========================
+    /*===========finalização==============*/
+    
     killSistemaGeo(sis);
     destruirDadosArq(arqGeo);
 
